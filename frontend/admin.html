@@ -111,8 +111,26 @@
 
     .admin-top-actions {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 8px;
+    }
+
+    .admin-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .admin-tools select {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 10px;
+      outline: none;
     }
   </style>
 </head>
@@ -153,6 +171,16 @@
         <h3>Approve and reject user payments</h3>
       </div>
       <div class="admin-top-actions">
+        <div class="admin-tools">
+          <label for="statusFilter" class="muted-copy">Status:</label>
+          <select id="statusFilter">
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <button id="adminRefreshButton" type="button" class="btn btn-secondary">Refresh</button>
+        </div>
         <button id="adminLogoutButton" type="button" class="btn btn-secondary">Logout</button>
       </div>
       <p id="adminMessage" class="muted-copy">Loading users...</p>

@@ -1,5 +1,6 @@
-const API_URL = "http://localhost:5011";
+const API_URL = "https://tournament-ff.onrender.com";
 const ADMIN_TOKEN_KEY = "adminAuthToken";
+let allUsers = [];
 
 window.addEventListener("DOMContentLoaded", () => {
   initAdminAuth();
@@ -8,9 +9,8 @@ window.addEventListener("DOMContentLoaded", () => {
 function initAdminAuth() {
   const loginForm = document.getElementById("adminLoginForm");
   const logoutButton = document.getElementById("adminLogoutButton");
-
-  // Force admin login every time admin page opens.
-  localStorage.removeItem(ADMIN_TOKEN_KEY);
+  const refreshButton = document.getElementById("adminRefreshButton");
+  const statusFilter = document.getElementById("statusFilter");
 
   if (loginForm) {
     loginForm.addEventListener("submit", async (event) => {
@@ -73,6 +73,25 @@ function initAdminAuth() {
     });
   }
 
+  if (refreshButton) {
+    refreshButton.addEventListener("click", async () => {
+      await loadUsers();
+    });
+  }
+
+  if (statusFilter) {
+    statusFilter.addEventListener("change", () => {
+      applyFilterAndRender();
+    });
+  }
+
+  const token = localStorage.getItem(ADMIN_TOKEN_KEY);
+  if (token) {
+    showAdminPanel();
+    loadUsers();
+    return;
+  }
+
   showLoginPanel();
 }
 
@@ -129,9 +148,18 @@ async function loadUsers() {
       throw new Error(data.message || "Failed to load users");
     }
 
-    renderUsers(data.users || []);
+    allUsers = data.users || [];
+    applyFilterAndRender();
+
+    const approvedCount = allUsers.filter((u) => {
+      const status = String(u.status || "").toLowerCase();
+      return status === "approved" || status === "completed";
+    }).length;
+    const rejectedCount = allUsers.filter((u) => String(u.status || "").toLowerCase() === "rejected").length;
+    const pendingCount = allUsers.filter((u) => String(u.status || "pending").toLowerCase() === "pending").length;
+
     if (message) {
-      message.textContent = `Total users: ${(data.users || []).length}`;
+      message.textContent = `Total: ${allUsers.length} | Approved: ${approvedCount} | Rejected: ${rejectedCount} | Pending: ${pendingCount}`;
     }
   } catch (error) {
     console.error("Admin load error:", error);
@@ -140,6 +168,26 @@ async function loadUsers() {
       message.textContent = "Could not fetch users from server.";
     }
   }
+}
+
+function applyFilterAndRender() {
+  const statusFilter = document.getElementById("statusFilter");
+  const filterValue = (statusFilter?.value || "all").toLowerCase();
+
+  if (filterValue === "all") {
+    renderUsers(allUsers);
+    return;
+  }
+
+  const filteredUsers = allUsers.filter((user) => {
+    const status = String(user.status || "pending").toLowerCase();
+    if (filterValue === "approved") {
+      return status === "approved" || status === "completed";
+    }
+    return status === filterValue;
+  });
+
+  renderUsers(filteredUsers);
 }
 
 function renderUsers(users) {
@@ -157,14 +205,14 @@ function renderUsers(users) {
     .map((user) => {
       const status = user.status || "Pending";
       const statusClass =
-        status === "Approved"
+        status === "Approved" || status === "Completed"
           ? "tag-approved"
           : status === "Rejected"
             ? "tag-rejected"
             : "tag-pending";
 
       const screenshotHtml = user.screenshot
-        ? `<a href="${API_URL}/uploads/${user.screenshot}" target="_blank" rel="noreferrer"><img class="shot" src="${API_URL}/uploads/${user.screenshot}" alt="${user.name} screenshot" /></a>`
+        ? `<a href="${API_URL}/uploads/${encodeURIComponent(user.screenshot)}" target="_blank" rel="noreferrer"><img class="shot" src="${API_URL}/uploads/${encodeURIComponent(user.screenshot)}" alt="${escapeHtml(user.name || "Player")} screenshot" /></a>`
         : "No screenshot";
 
       return `

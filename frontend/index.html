@@ -35,6 +35,7 @@
       <a href="#register">Register</a>
       <a href="#payment">Payment</a>
       <a href="#dashboard">Dashboard</a>
+      <a href="admin.html">Admin</a>
       <a href="#support">Support</a>
     </nav>
   </header>
@@ -52,20 +53,32 @@
           <a class="btn btn-primary" href="#register">Register Now</a>
           <a class="btn btn-outline" href="#dashboard">View Dashboard</a>
         </div>
+        <div class="hero-meta">
+          <span>Live Slots</span>
+          <span>Fast Verification</span>
+          <span>Secure Entry</span>
+        </div>
       </div>
-      <div class="hero-stats">
-        <article>
-          <span>Total Users</span>
-          <strong id="heroTotal">0</strong>
-        </article>
-        <article>
-          <span>Approved</span>
-          <strong id="heroApproved">0</strong>
-        </article>
-        <article>
-          <span>Pending</span>
-          <strong id="heroPending">0</strong>
-        </article>
+      <div class="hero-side">
+        <div class="hero-stats">
+          <article>
+            <span>Total Users</span>
+            <strong id="heroTotal">0</strong>
+          </article>
+          <article>
+            <span>Approved</span>
+            <strong id="heroApproved">0</strong>
+          </article>
+          <article>
+            <span>Pending</span>
+            <strong id="heroPending">0</strong>
+          </article>
+        </div>
+        <div class="hero-glow-card glass">
+          <span>Next Room Drop</span>
+          <strong>Friday 9:00 PM</strong>
+          <p>Secure your registration before slot lock.</p>
+        </div>
       </div>
     </section>
 
@@ -79,25 +92,37 @@
         <div class="form-grid">
           <label>
             <span>Name</span>
-            <input type="text" name="name" id="name" placeholder="Enter your full name" required />
+            <div class="input-shell">
+              <span class="input-icon">N</span>
+              <input type="text" name="name" id="name" placeholder="Enter your full name" required />
+            </div>
             <small class="error" id="nameError"></small>
           </label>
 
           <label>
             <span>Free Fire UID</span>
-            <input type="text" name="uid" id="uid" placeholder="Enter UID" required />
+            <div class="input-shell">
+              <span class="input-icon">U</span>
+              <input type="text" name="uid" id="uid" placeholder="Enter UID" required />
+            </div>
             <small class="error" id="uidError"></small>
           </label>
 
           <label>
             <span>Phone Number</span>
-            <input type="tel" name="phone" id="phone" placeholder="10 digit mobile number" required />
+            <div class="input-shell">
+              <span class="input-icon">P</span>
+              <input type="tel" name="phone" id="phone" placeholder="10 digit mobile number" required />
+            </div>
             <small class="error" id="phoneError"></small>
           </label>
 
           <label>
             <span>Transaction ID</span>
-            <input type="text" name="transactionId" id="transactionId" placeholder="Payment transaction id" required />
+            <div class="input-shell">
+              <span class="input-icon">T</span>
+              <input type="text" name="transactionId" id="transactionId" placeholder="Payment transaction id" required />
+            </div>
             <small class="error" id="transactionError"></small>
           </label>
         </div>
@@ -140,7 +165,7 @@
 
     <section id="dashboard" class="panel glass reveal">
       <div class="section-head">
-        <span>Dashboard</span>
+        <span>Players List Section</span>
         <h3>All Registered Users</h3>
       </div>
 

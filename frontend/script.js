@@ -16,11 +16,42 @@ const usersTableBody = document.getElementById("usersTableBody");
 const toast = document.getElementById("toast");
 
 window.addEventListener("DOMContentLoaded", async () => {
+  initRevealAnimations();
   initPreview();
   initFormSubmission();
   await loadUsers();
   hideLoader();
 });
+
+function initRevealAnimations() {
+  const sections = document.querySelectorAll(".reveal");
+  if (!sections.length) {
+    return;
+  }
+
+  sections.forEach((section, index) => {
+    section.style.animationDelay = `${Math.min(index * 80, 320)}ms`;
+  });
+
+  if (!("IntersectionObserver" in window)) {
+    sections.forEach((section) => section.classList.add("visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
 
 function initPreview() {
   screenshotInput.addEventListener("change", () => {
