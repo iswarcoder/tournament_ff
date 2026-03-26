@@ -1,266 +1,219 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Fire Tournament Registration System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=clean1" />
+  <meta name="theme-color" content="#050611" />
+  <title>H4X Esports | Free Fire Tournament</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="animated-orb orb-a"></div>
-  <div class="animated-orb orb-b"></div>
-  <div class="floating-particles" id="floatingParticles" aria-hidden="true"></div>
-  <div class="page-glow glow-1"></div>
-  <div class="page-glow glow-2"></div>
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
 
-  <div id="loader" class="loading-screen">
-    <div class="loader-card">
-      <div class="loader-ring"></div>
-      <span>Loading tournament arena...</span>
-    </div>
-  </div>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <div class="success-popup" id="successPopup" aria-hidden="true">
-    <div class="success-popup-card">
-      <div class="success-popup-badge">Congratulations</div>
-      <h3>Successful Registration</h3>
-      <p id="successPopupMessage">Your registration was submitted successfully.</p>
-      <button type="button" class="btn btn-primary btn-full" id="successPopupClose">OK</button>
+  <div id="pageLoader" class="page-loader">
+    <div class="loader-card glass">
+      <div class="ring"></div>
+      <p>Booting Tournament Console...</p>
     </div>
   </div>
 
   <header class="topbar glass">
-    <div class="brand">
-      <div class="brand-mark brand-mark-logo">
-        <img src="assets/logo.png" alt="H4X Esports logo" class="brand-logo" />
-      </div>
+    <div class="logo-wrap">
+      <img src="assets/logo.png" alt="H4X Esports" />
       <div>
         <h1>H4X ESPORTS</h1>
-        <p>Aurora esports registration portal</p>
+        <p>Free Fire Tournament Registration</p>
       </div>
     </div>
-    <nav class="nav-links">
-      <a href="#hero">Home</a>
+    <nav>
+      <a href="#home">Home</a>
       <a href="#register">Register</a>
       <a href="#payment">Payment</a>
       <a href="#dashboard">Dashboard</a>
-      <a href="admin.html">Admin</a>
-      <a href="support.html">Support</a>
+      <a href="#support">Support</a>
     </nav>
   </header>
 
-  <div id="app" style="display:none;">
   <main>
-    <section class="glass card reveal">
-      <div class="section-title">
-        <span>Welcome</span>
-        <h3>Welcome to Tournament</h3>
-      </div>
-      <div id="dataContainer"></div>
-    </section>
-
-    <section class="hero" id="hero">
-      <div class="hero-copy reveal">
-        <span class="eyebrow">Official Esports Registration</span>
-        <h2>🔥 Free Fire Tournament</h2>
+    <section id="home" class="hero glass reveal">
+      <div>
+        <span class="kicker">BATTLE ZONE LIVE</span>
+        <h2>Join the Ultimate<br />Free Fire Clash</h2>
         <p>
-          Join the next premium battle arena with a sleek, mobile-ready registration experience.
-          Register, upload payment proof, and track your slot status in real time.
+          Register your squad entry in seconds, upload payment proof, and monitor player list
+          from the live dashboard.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#register">Register Now</a>
-          <a class="btn btn-secondary" href="#dashboard">View Dashboard</a>
-        </div>
-        <div class="hero-badges">
-          <div class="badge glass">Aurora Gaming UI</div>
-          <div class="badge glass">Responsive Layout</div>
-          <div class="badge glass">Animated Workflow</div>
+          <a class="btn btn-outline" href="#dashboard">View Dashboard</a>
         </div>
       </div>
-
-      <div class="hero-panel glass reveal">
-        <div class="panel-header">
-          <span class="pulse-dot"></span>
-          Live Tournament Summary
-        </div>
-        <div class="mini-stats">
-          <div>
-            <strong id="heroPlayers">128</strong>
-            <span>Players Joined</span>
-          </div>
-          <div>
-            <strong id="heroSlots">12</strong>
-            <span>Slots Left</span>
-          </div>
-          <div>
-            <strong>24/7</strong>
-            <span>Support</span>
-          </div>
-        </div>
-        <div class="arena-card">
-          <span>Prize Pool</span>
-          <strong id="prizeAmountDisplay">₹500</strong>
-          <p>Secure your place before the lobby fills up.</p>
-        </div>
+      <div class="hero-stats">
+        <article>
+          <span>Total Users</span>
+          <strong id="heroTotal">0</strong>
+        </article>
+        <article>
+          <span>Approved</span>
+          <strong id="heroApproved">0</strong>
+        </article>
+        <article>
+          <span>Pending</span>
+          <strong id="heroPending">0</strong>
+        </article>
       </div>
     </section>
 
-    <section class="glass card reveal" id="tournament-group">
-      <div class="section-title">
-        <span>Tournament Group</span>
-        <h3>Join Official WhatsApp Group</h3>
+    <section id="register" class="panel glass reveal">
+      <div class="section-head">
+        <span>Registration Form</span>
+        <h3>Enter Your Details</h3>
       </div>
-      <p class="muted-copy">
-        Join the tournament group to receive match updates, room details, and announcements.
-      </p>
-      <a
-        href="https://chat.whatsapp.com/KrQtBtM3oxwE0znHffPVFc?mode=gi_t"
-        target="_blank"
-        rel="noreferrer"
-        class="btn btn-success btn-full"
-      >
-        Join Tournament WhatsApp Group
-      </a>
-    </section>
 
-    <section class="content-grid">
-      <section class="glass card reveal" id="register">
-        <div class="section-title">
-          <span>Registration Form</span>
-          <h3>Enter your battle details</h3>
-        </div>
-
-        <form id="registrationForm" class="form-grid">
+      <form id="registrationForm" novalidate>
+        <div class="form-grid">
           <label>
             <span>Name</span>
-            <input type="text" name="name" placeholder="Your name" required />
+            <input type="text" name="name" id="name" placeholder="Enter your full name" required />
+            <small class="error" id="nameError"></small>
           </label>
 
           <label>
             <span>Free Fire UID</span>
-            <input type="text" name="uid" placeholder="UID number" required />
+            <input type="text" name="uid" id="uid" placeholder="Enter UID" required />
+            <small class="error" id="uidError"></small>
           </label>
 
           <label>
             <span>Phone Number</span>
-            <input type="tel" name="phone" placeholder="10-digit number" required />
+            <input type="tel" name="phone" id="phone" placeholder="10 digit mobile number" required />
+            <small class="error" id="phoneError"></small>
           </label>
 
           <label>
             <span>Transaction ID</span>
-            <input type="text" name="transactionId" placeholder="UPI transaction ID" required />
+            <input type="text" name="transactionId" id="transactionId" placeholder="Payment transaction id" required />
+            <small class="error" id="transactionError"></small>
           </label>
+        </div>
 
-          <label class="upload-field">
-            <span>Payment Screenshot</span>
-              <input id="paymentScreenshot" name="screenshot" type="file" accept="image/*" required />
-            <div class="upload-dropzone" id="uploadDropzone">
-              <strong>Drop or choose screenshot</strong>
-              <p>JPG, PNG, WEBP supported</p>
-            </div>
-          </label>
+        <label class="upload-block">
+          <span>Upload Payment Screenshot</span>
+          <input type="file" name="screenshot" id="screenshot" accept="image/*" required />
+          <small class="error" id="screenshotError"></small>
+          <div id="preview" class="preview">No screenshot selected</div>
+        </label>
 
-          <div class="preview-wrap">
-            <span>Preview</span>
-            <div class="preview-box" id="imagePreview">
-              <p>No image selected yet</p>
-            </div>
-          </div>
-
-          <button id="payRegisterButton" class="btn btn-primary btn-full submit-btn" type="button">
-            Register
-          </button>
-        </form>
-      </section>
-
-      <aside class="sidebar-stack">
-        <section class="glass card reveal" id="payment">
-          <div class="section-title">
-            <span>Payment Section</span>
-            <h3>Scan &amp; Pay</h3>
-          </div>
-          <p class="muted-copy">
-            Scan the QR below in your UPI app, pay the entry fee manually, then enter the transaction ID and upload the screenshot.
-          </p>
-          <div class="qr-card">
-            <div class="qr-topline">
-              <span class="qr-badge">PhonePe Accepted</span>
-            </div>
-            <img src="assets/qr2.jpeg" alt="UPI QR code for tournament payment" class="qr-image" onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');" />
-            <div class="qr-fallback">Place your QR image at <strong>frontend/assets/qr2.jpeg</strong>.</div>
-            <div class="qr-caption">Open PhonePe, scan, pay, then share the transaction ID.</div>
-          </div>
-          <div class="payment-status" id="paymentStatus">
-            Payment status: <strong>Awaiting registration</strong>
-          </div>
-        </section>
-
-        <section class="glass card reveal" id="status">
-          <div class="section-title">
-            <span>Status Section</span>
-            <h3>Track your registration</h3>
-          </div>
-          <div class="status-list">
-              <div class="status-pill pending active">Pending</div>
-              <div class="status-pill verified">Verified</div>
-              <div class="status-pill rejected">Rejected</div>
-            </div>
-          <div class="status-detail" id="statusDetail">
-            Your registration is currently waiting for verification.
-          </div>
-          <div class="slot-panel hidden" id="slotPanel">
-            <div>
-              <span>Slot Number</span>
-              <strong id="slotNumber">FF-09</strong>
-            </div>
-            <a href="https://chat.whatsapp.com/KrQtBtM3oxwE0znHffPVFc?mode=gi_t" target="_blank" rel="noreferrer" class="btn btn-success btn-full">
-              Join WhatsApp Group
-            </a>
-          </div>
-        </section>
-      </aside>
+        <button class="btn btn-primary" id="submitBtn" type="submit">
+          Submit Registration
+          <span id="btnLoader" class="btn-loader hidden"></span>
+        </button>
+      </form>
     </section>
 
-    <section class="glass dashboard reveal" id="dashboard">
-      <div class="section-title">
+    <section id="payment" class="panel glass reveal split">
+      <div>
+        <div class="section-head">
+          <span>Payment Upload</span>
+          <h3>Scan & Pay Entry Fee</h3>
+        </div>
+        <p>
+          Pay using the QR code below, then fill transaction ID and upload screenshot in the
+          registration form.
+        </p>
+        <ul class="notes">
+          <li>Upload only clear screenshot images.</li>
+          <li>Use the same phone number linked to your payment app.</li>
+          <li>Verification status updates in dashboard after admin review.</li>
+        </ul>
+      </div>
+      <div class="qr-box">
+        <img src="assets/qr2.jpeg" alt="Payment QR" />
+        <p>UPI / PhonePe / Paytm Supported</p>
+      </div>
+    </section>
+
+    <section id="dashboard" class="panel glass reveal">
+      <div class="section-head">
         <span>Dashboard</span>
-        <h3>Live tournament metrics</h3>
-      </div>
-      <div class="dashboard-grid">
-        <div class="stat-card">
-          <span>Total Players</span>
-          <strong data-count="256">0</strong>
-        </div>
-        <div class="stat-card">
-          <span>Verified Players</span>
-          <strong data-count="198">0</strong>
-        </div>
-        <div class="stat-card">
-          <span>Pending Players</span>
-          <strong data-count="58">0</strong>
-        </div>
+        <h3>All Registered Users</h3>
       </div>
 
-      <div class="section-title">
-        <span>Registered Players</span>
-        <h3>Player screenshots</h3>
-      </div>
-      <div id="players-list" class="players-grid">
-        <!-- Players will be loaded here -->
+      <div class="dash-stats">
+        <article>
+          <span>Total</span>
+          <strong id="totalCount">0</strong>
+        </article>
+        <article>
+          <span>Approved</span>
+          <strong id="approvedCount">0</strong>
+        </article>
+        <article>
+          <span>Pending</span>
+          <strong id="pendingCount">0</strong>
+        </article>
+        <article>
+          <span>Rejected</span>
+          <strong id="rejectedCount">0</strong>
+        </article>
       </div>
 
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>UID</th>
+              <th>Phone</th>
+              <th>Transaction ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr>
+              <td colspan="5" class="empty">Loading users...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="support" class="panel glass reveal split">
+      <div>
+        <div class="section-head">
+          <span>Support</span>
+          <h3>Need Help?</h3>
+        </div>
+        <p>For payment or registration issue, contact support.</p>
+        <div class="support-cards">
+          <article>
+            <span>Phone</span>
+            <strong>+91 8926034670</strong>
+          </article>
+          <article>
+            <span>Email</span>
+            <strong>swadhinmandal330@gmail.com</strong>
+          </article>
+        </div>
+      </div>
+      <div class="support-box">
+        <h4>Quick Help</h4>
+        <p>Send screenshot + transaction ID for faster payment verification.</p>
+      </div>
     </section>
   </main>
-  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <footer class="footer glass">
-    <p>Built for esports style registration with modern animation, responsive layout, and premium glassmorphism.</p>
+    <p>Powered by H4X Esports | Frontend connected to tournament-ff backend</p>
   </footer>
 
-  <script src="script.js?v=clean1"></script>
+  <script src="script.js"></script>
 </body>
 </html>
