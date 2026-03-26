@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 5011;
+const PORT = Number(process.env.PORT) || 5011;
 const MAX_PLAYERS = 50;
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'SWADHIN MANDAL';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SM@2006';
@@ -14,19 +14,20 @@ const adminSessions = new Map();
 
 const GROUP_LINK = process.env.GROUP_LINK || 'https://chat.whatsapp.com/KrQtBtM3oxwE0znHffPVFc?mode=gi_t';
 
-const uploadDir = "uploads/";
+const uploadDir = path.join(__dirname, 'uploads');
 fs.mkdirSync(uploadDir, { recursive: true });
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static("uploads"));
+app.use('/uploads', express.static(uploadDir));
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1234",
-  database: "tournament"
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '1234',
+  database: process.env.DB_NAME || 'tournament',
+  port: Number(process.env.DB_PORT) || 3306,
 });
 
 db.connect((err) => {
@@ -98,7 +99,7 @@ function requireAdminAuth(req, res, next) {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
@@ -165,6 +166,9 @@ app.post("/register", upload.single("screenshot"), (req, res) => {
   console.log("FILE:", req.file);
 
   const { name, uid, phone, transactionId } = req.body;
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'Screenshot is required.' });
+  }
   const screenshot = req.file.filename;
 
   const sql = `
