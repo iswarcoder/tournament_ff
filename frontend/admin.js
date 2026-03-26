@@ -14,6 +14,9 @@ function initAdminAuth() {
   const refreshButton = document.getElementById("adminRefreshButton");
   const statusFilter = document.getElementById("statusFilter");
 
+  // Force logout whenever admin page is refreshed/reopened.
+  localStorage.removeItem(ADMIN_TOKEN_KEY);
+
   if (loginForm) {
     loginForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -91,13 +94,6 @@ function initAdminAuth() {
     statusFilter.addEventListener("change", () => {
       applyFilterAndRender();
     });
-  }
-
-  const token = localStorage.getItem(ADMIN_TOKEN_KEY);
-  if (token) {
-    showAdminPanel();
-    loadUsers();
-    return;
   }
 
   showLoginPanel();

@@ -963,3 +963,11 @@ nav a {
     transform: translateX(130%);
   }
 }
+
+.support-collapsible {
+  display: none !important;
+}
+
+.support-collapsible.show {
+  display: grid !important;
+}

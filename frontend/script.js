@@ -17,11 +17,34 @@ const toast = document.getElementById("toast");
 
 window.addEventListener("DOMContentLoaded", async () => {
   initRevealAnimations();
+  initSupportSectionBehavior();
   initPreview();
   initFormSubmission();
   await loadUsers();
   hideLoader();
 });
+
+function initSupportSectionBehavior() {
+  const supportSection = document.getElementById("support");
+  const supportLinks = document.querySelectorAll('a[href="#support"]');
+
+  if (!supportSection || !supportLinks.length) {
+    return;
+  }
+
+  supportLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      supportSection.classList.add("show");
+      supportSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      showToast("Support section opened.", "info");
+    });
+  });
+
+  if (window.location.hash === "#support") {
+    supportSection.classList.add("show");
+  }
+}
 
 function initRevealAnimations() {
   const sections = document.querySelectorAll(".reveal");
