@@ -964,6 +964,225 @@ nav a {
   }
 }
 
+/* Extra mobile UI upgrade layer */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  .topbar {
+    padding-top: calc(0.72rem + env(safe-area-inset-top));
+  }
+
+  .topbar,
+  .panel,
+  .hero,
+  .footer {
+    border-radius: 14px;
+  }
+
+  .logo-wrap {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  nav {
+    scroll-snap-type: x mandatory;
+  }
+
+  nav a {
+    scroll-snap-align: start;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .kicker {
+    letter-spacing: 0.08em;
+  }
+
+  .hero h2 {
+    margin-top: 0.4rem;
+    line-height: 1.06;
+  }
+
+  .hero-stats,
+  .dash-stats,
+  .support-cards {
+    gap: 0.55rem;
+  }
+
+  .hero-stats article,
+  .dash-stats article,
+  .support-cards article {
+    padding: 0.78rem;
+  }
+
+  .hero-stats strong,
+  .dash-stats strong,
+  .support-cards strong {
+    font-size: 1.18rem;
+  }
+
+  .section-head {
+    margin-bottom: 0.38rem;
+  }
+
+  .section-head span {
+    font-size: 0.76rem;
+  }
+
+  .section-head h3 {
+    line-height: 1.2;
+  }
+
+  .form-grid {
+    margin-top: 0.72rem;
+    gap: 0.72rem;
+  }
+
+  label span {
+    font-size: 0.94rem;
+  }
+
+  .input-shell {
+    min-height: 52px;
+    border-radius: 12px;
+    padding: 0 0.64rem;
+  }
+
+  .input-shell input {
+    font-size: 0.98rem;
+  }
+
+  .btn {
+    min-height: 46px;
+    border-radius: 12px;
+  }
+
+  .preview {
+    border-radius: 12px;
+  }
+
+  .table-wrap {
+    margin-top: 0.75rem;
+  }
+
+  tbody tr {
+    border-radius: 12px;
+    margin-bottom: 0.55rem;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+  }
+
+  tbody tr td {
+    font-size: 0.91rem;
+  }
+
+  .status {
+    font-size: 0.78rem;
+  }
+
+  .support-box {
+    border-radius: 12px;
+    padding: 0.82rem;
+  }
+
+  .footer {
+    margin-bottom: calc(0.6rem + env(safe-area-inset-bottom));
+    padding: 0.9rem 0.85rem;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar,
+  .footer,
+  main {
+    width: calc(100% - 0.5rem);
+  }
+
+  .topbar {
+    gap: 0.55rem;
+    padding: calc(0.62rem + env(safe-area-inset-top)) 0.62rem 0.62rem;
+  }
+
+  .logo-wrap img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .logo-wrap h1 {
+    font-size: 0.9rem;
+  }
+
+  .logo-wrap p {
+    font-size: 0.72rem;
+  }
+
+  nav a {
+    font-size: 0.8rem;
+    min-height: 34px;
+    padding: 0.35rem 0.55rem;
+  }
+
+  .hero,
+  .panel,
+  .footer {
+    padding: 0.85rem;
+  }
+
+  .hero h2 {
+    font-size: clamp(1.28rem, 8.2vw, 1.9rem);
+  }
+
+  .hero p,
+  .notes,
+  .support-box p {
+    font-size: 0.9rem;
+  }
+
+  .hero-meta {
+    gap: 0.42rem;
+  }
+
+  .hero-meta span {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.48rem;
+  }
+
+  .hero-stats strong,
+  .dash-stats strong,
+  .support-cards strong {
+    font-size: 1.04rem;
+  }
+
+  .input-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    font-size: 0.72rem;
+  }
+
+  .input-shell {
+    min-height: 48px;
+  }
+
+  .input-shell input {
+    padding: 0.74rem 0.15rem;
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+
+  .toast {
+    font-size: 0.86rem;
+    border-radius: 10px;
+    padding: 0.62rem 0.72rem;
+  }
+}
+
 .support-collapsible {
   display: none !important;
 }
