@@ -1,6 +1,8 @@
 const API_URL = "https://tournament-ff.onrender.com";
 const ADMIN_TOKEN_KEY = "adminAuthToken";
+const FIXED_ADMIN_USERNAME = "SWADHIN MANDAL";
 let allUsers = [];
+let adminToastTimer = null;
 
 window.addEventListener("DOMContentLoaded", () => {
   initAdminAuth();
@@ -16,14 +18,14 @@ function initAdminAuth() {
     loginForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const username = document.getElementById("adminUsername")?.value?.trim() || "";
+      const username = FIXED_ADMIN_USERNAME;
       const password = document.getElementById("adminPassword")?.value || "";
       const loginMessage = document.getElementById("adminLoginMessage");
       const loginButton = document.getElementById("adminLoginButton");
 
-      if (!username || !password) {
+      if (!password) {
         if (loginMessage) {
-          loginMessage.textContent = "Enter admin username and password.";
+          loginMessage.textContent = "Enter admin password.";
         }
         return;
       }
@@ -32,6 +34,7 @@ function initAdminAuth() {
         loginButton.disabled = true;
         loginButton.textContent = "Logging in...";
       }
+      setAdminLoading(true, "Verifying admin credentials...");
 
       try {
         const response = await fetch(`${API_URL}/api/admin/login`, {
@@ -51,17 +54,20 @@ function initAdminAuth() {
         if (loginMessage) {
           loginMessage.textContent = "Login successful.";
         }
+        showAdminToast("Login successful.", "success");
         showAdminPanel();
         await loadUsers();
       } catch (error) {
         if (loginMessage) {
           loginMessage.textContent = error.message || "Invalid credentials.";
         }
+        showAdminToast(error.message || "Invalid credentials.", "error");
       } finally {
         if (loginButton) {
           loginButton.disabled = false;
           loginButton.textContent = "Login";
         }
+        setAdminLoading(false);
       }
     });
   }
@@ -70,11 +76,13 @@ function initAdminAuth() {
     logoutButton.addEventListener("click", () => {
       localStorage.removeItem(ADMIN_TOKEN_KEY);
       showLoginPanel();
+      showAdminToast("Logged out successfully.", "info");
     });
   }
 
   if (refreshButton) {
     refreshButton.addEventListener("click", async () => {
+      showAdminToast("Refreshing users...", "info");
       await loadUsers();
     });
   }
@@ -133,6 +141,7 @@ async function loadUsers() {
   }
 
   try {
+    setAdminLoading(true, "Fetching user requests...");
     const response = await fetch(`${API_URL}/api/users`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -161,12 +170,16 @@ async function loadUsers() {
     if (message) {
       message.textContent = `Total: ${allUsers.length} | Approved: ${approvedCount} | Rejected: ${rejectedCount} | Pending: ${pendingCount}`;
     }
+    showAdminToast("User list updated.", "success");
   } catch (error) {
     console.error("Admin load error:", error);
     tableBody.innerHTML = `<tr><td class="empty-row" colspan="7">Failed to load users</td></tr>`;
     if (message) {
       message.textContent = "Could not fetch users from server.";
     }
+    showAdminToast(error.message || "Could not fetch users from server.", "error");
+  } finally {
+    setAdminLoading(false);
   }
 }
 
@@ -250,6 +263,7 @@ function bindActionButtons() {
       button.disabled = true;
       const originalText = button.textContent;
       button.textContent = "...";
+      setAdminLoading(true, action === "approve" ? "Approving request..." : "Rejecting request...");
 
       try {
         const token = localStorage.getItem(ADMIN_TOKEN_KEY);
@@ -279,16 +293,55 @@ function bindActionButtons() {
           throw new Error(data.message || `Failed to ${action}`);
         }
 
+        showAdminToast(
+          action === "approve" ? "User approved successfully." : "User rejected successfully.",
+          "success"
+        );
         await loadUsers();
       } catch (error) {
         console.error(`Action ${action} failed:`, error);
-        alert(error.message || `Could not ${action} user`);
+        showAdminToast(error.message || `Could not ${action} user`, "error");
       } finally {
         button.disabled = false;
         button.textContent = originalText;
+        setAdminLoading(false);
       }
     });
   });
+}
+
+function setAdminLoading(isLoading, text = "Loading...") {
+  const loader = document.getElementById("adminLoader");
+  const loaderText = document.getElementById("adminLoaderText");
+
+  if (!loader) {
+    return;
+  }
+
+  if (loaderText) {
+    loaderText.textContent = text;
+  }
+
+  loader.classList.toggle("active", isLoading);
+  loader.setAttribute("aria-hidden", String(!isLoading));
+}
+
+function showAdminToast(message, type = "info") {
+  const toast = document.getElementById("adminToast");
+  if (!toast) {
+    return;
+  }
+
+  toast.textContent = message;
+  toast.className = `admin-toast show ${type}`;
+
+  if (adminToastTimer) {
+    clearTimeout(adminToastTimer);
+  }
+
+  adminToastTimer = setTimeout(() => {
+    toast.className = "admin-toast";
+  }, 2600);
 }
 
 function escapeHtml(value) {

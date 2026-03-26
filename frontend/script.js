@@ -227,11 +227,11 @@ function renderUsers(users) {
     .map((user) => {
       const status = String(user.status || "Pending");
       return `<tr>
-        <td>${sanitize(user.name || "-")}</td>
-        <td>${sanitize(user.uid || "-")}</td>
-        <td>${sanitize(user.phone || "-")}</td>
-        <td>${sanitize(user.transactionId || "-")}</td>
-        <td><span class="status ${status.toLowerCase()}">${sanitize(status)}</span></td>
+        <td data-label="Name">${sanitize(user.name || "-")}</td>
+        <td data-label="UID">${sanitize(user.uid || "-")}</td>
+        <td data-label="Phone">${sanitize(user.phone || "-")}</td>
+        <td data-label="Transaction ID">${sanitize(user.transactionId || "-")}</td>
+        <td data-label="Status"><span class="status ${status.toLowerCase()}">${sanitize(status)}</span></td>
       </tr>`;
     })
     .join("");
